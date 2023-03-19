@@ -9,6 +9,8 @@ import matplotlib.pyplot as plt
 import folium
 import asyncio
 from streamlit_folium import st_folium
+import pydeck as pdk
+from pydeck.types import String
 
 # Define the Streamlit app
 def app():
@@ -125,6 +127,46 @@ def app():
             popup=hospital.iloc[i]['Name'],
         ).add_to(m)
     st_data = st_folium(m, width = 725)
+
+    # Modified map using Pydeck
+    st.subheader("Interactive map of Hospitals and Medical centers")
+    st.pydeck_chart(pdk.Deck(
+    map_style='road',
+    tooltip = True,
+    initial_view_state=pdk.ViewState(
+        latitude=34.0522,
+        longitude=-118.2437,
+        zoom=11,
+        pitch=50,
+    ),
+    layers=[
+        pdk.Layer(
+            "HexagonLayer",
+            hospital,
+            get_position=["longitude", "latitude"],
+            auto_highlight=True,
+            elevation_scale=50,
+            pickable=True,
+            elevation_range=[0, 3000],
+            extruded=True,
+            coverage=1,
+        ),
+        pdk.Layer(
+            "TextLayer",
+            hospital,
+            pickable=True,
+            get_position='[longitude, latitude]',
+            get_text="Name",
+            get_size=8,
+            get_color=[0, 0, 0],
+            get_angle=0,
+            # Note that string constants in pydeck are explicitly passed as strings
+            # This distinguishes them from columns in a data set
+            get_text_anchor=String("middle"),
+            get_alignment_baseline=String("center"),
+            ),
+    ],
+    ))
 
 # Run the Streamlit app
 app()
