@@ -97,7 +97,7 @@ def app():
     st.pyplot()
 
     # plot ownership of the hospitals
-    st.subheader("Hospital owenership")
+    st.subheader("Hospital ownership")
     st.text("Most ownerships is proprietary based.")
     sns.set(rc={'figure.figsize':(15,10)});
     sns.countplot(y=hosp_df["Hospital Ownership"]);
