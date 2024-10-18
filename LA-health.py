@@ -16,7 +16,7 @@ from pydeck.types import String
 def app():
     # Add a title to the app
     st.title("Los Angeles: Health care")
-    st.set_option('deprecation.showPyplotGlobalUse', False)
+    # st.set_option('deprecation.showPyplotGlobalUse', False)
 
     # Load the dataset
     hospital = geopandas.read_file("Hospitals_and_Medical_Centers.geojson")
